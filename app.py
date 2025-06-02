@@ -127,7 +127,7 @@ def handle_text(event):
             url = request.url_root.replace(
                 "http", "https") + 'static/image.png'
             buttons_template = ButtonsTemplate(
-                thumbnail_image_url=url,
+                thumbnail_image_url="https://hsuhsulin.github.io/line_bot/flip_card/image.png",
                 title='今天吃什麼',
                 text='請選擇',
                 actions=[
@@ -222,16 +222,21 @@ def handle_text(event):
                 food = get_random_food()
             else:
                 food = get_food()
-            url = request.url_root.replace(
-                "http", "https") + 'static/card'
+            base_url = 'https://hsuhsulin.github.io/line_bot/flip_card/card'
+    
             columns = [
                 CarouselColumn(
-                    thumbnail_image_url=url+str(i+1)+'.png',
+                    thumbnail_image_url=f'{base_url}{i+1}.png',
                     title=f'第{i+1}張卡牌',
                     text=f'這是第{i+1}張卡牌的描述',
-                    actions=[PostbackAction(
-                        label="翻開卡牌嗎?",data="action=turn"+str(i)+"-"+food)]
-                ) for i in range(6)
+                    actions=[
+                        PostbackAction(
+                            label="翻開卡牌嗎?",
+                            data=f"action=turn{i}-{food}"
+                        )
+                    ]
+                )
+                for i in range(6)
             ]
             carousel_message = TemplateMessage(
                 alt_text='這是 Carousel Template',
@@ -383,7 +388,7 @@ def handle_location(event):
                 columns = [
                     CarouselColumn(
                         
-                        thumbnail_image_url=r['photo_url'],  # 用靜態圖
+                        thumbnail_image_url="https://hsuhsulin.github.io/line_bot/flip_card/image2.jpg",  # 用靜態圖
                         title=r['name'][:40],  # 限制字數
                         # 限制字數
                         text=f"{r['address'][:50]}\n⭐️{r.get('rating', 'N/A')}",
