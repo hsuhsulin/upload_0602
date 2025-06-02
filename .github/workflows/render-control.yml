@@ -1,0 +1,30 @@
+name: Daily Render Control
+
+on:
+  schedule:
+    # UTC 時間：早上 2 點開，早上 10 點關（你可調整）
+    - cron: '0 2 * * *'  # 啟動（台灣時間 10:00）
+    - cron: '0 10 * * *' # 停止（台灣時間 18:00）
+  workflow_dispatch:  # 也可手動啟動
+
+jobs:
+  control-render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Start or Stop Render Service
+        env:
+          API_KEY: ${{ secrets.RENDER_API_KEY }}
+          SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
+        run: |
+          # 判斷現在是啟動還是停止
+          HOUR=$(date -u +"%H")
+          if [ "$HOUR" -eq "2" ]; then
+            ACTION="start"
+          else
+            ACTION="suspend"
+          fi
+          echo "Calling Render API to $ACTION service..."
+
+          curl -X POST "https://api.render.com/v1/services/$SERVICE_ID/$ACTION" \
+            -H "Accept: application/json" \
+            -H "Authorization: Bearer $API_KEY"
