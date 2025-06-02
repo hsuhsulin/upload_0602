@@ -1,0 +1,17 @@
+name: Stop Render Service
+
+on:
+  schedule:
+    - cron: '0 11 * * *'   # 每天 UTC 11:00（台灣時間 19:00）關機
+  workflow_dispatch:
+
+jobs:
+  stop:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Stop Render service
+        run: |
+          curl -X POST \
+            -H "Accept: application/json" \
+            -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+            https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/suspend
