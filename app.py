@@ -388,7 +388,7 @@ def handle_location(event):
                 columns = [
                     CarouselColumn(
                         
-                        thumbnail_image_url="https://hsuhsulin.github.io/line_bot/flip_card/image2.jpg",  # 用靜態圖
+                        thumbnail_image_url=r['photo_url'],  # 用靜態圖
                         title=r['name'][:40],  # 限制字數
                         # 限制字數
                         text=f"{r['address'][:50]}\n⭐️{r.get('rating', 'N/A')}",
