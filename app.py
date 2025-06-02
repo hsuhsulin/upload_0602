@@ -18,7 +18,7 @@ from linebot.v3.messaging import (
 )
 from linebot.v3.webhooks import MessageEvent, TextMessageContent, LocationMessageContent, PostbackEvent
 from linebot.models.send_messages import ImageSendMessage
-from flask import send_from_directory
+
 
 app = Flask(__name__)
 
@@ -28,9 +28,7 @@ handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
 api_client = ApiClient(configuration)
 api = MessagingApi(api_client)
 
-@app.route('/static/<path:filename>')
-def serve_static(filename):
-    return send_from_directory('static', filename)
+
 
 # 全域狀態變數
 Weather_Func = False
